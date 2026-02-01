@@ -20,26 +20,43 @@ header .avatar { width: 28px; height: 28px; border-radius: 50%; background: #ddd
 .btn-cancel-sub { width: 100%; padding: 14px; border: 2px solid #c0392b; background: #fff; color: #c0392b; font-size: 15px; font-weight: 600; border-radius: 10px; cursor: pointer; margin-top: 8px; }
 .btn-cancel-sub:hover { background: #fdf2f2; }
 
-/* Modal overlay */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; justify-content: center; align-items: center; }
 .overlay.active { display: flex; }
 
-/* Modal */
-.modal { background: #fffdf5; border-radius: 16px; width: 90%; max-width: 380px; padding: 24px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.18); animation: slideUp .25s ease; }
+.modal { background: #fffdf5; border-radius: 16px; width: 90%; max-width: 400px; max-height: 90vh; overflow-y: auto; padding: 24px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.18); animation: slideUp .25s ease; }
 @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.modal-close { position: absolute; top: 12px; right: 14px; background: none; border: none; font-size: 22px; cursor: pointer; color: #999; line-height: 1; }
+.modal-close { position: absolute; top: 12px; right: 14px; background: none; border: none; font-size: 22px; cursor: pointer; color: #999; line-height: 1; z-index: 1; }
 .modal-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
 .modal-header .icon { font-size: 20px; }
 .modal-header h3 { color: #c0392b; font-size: 16px; font-weight: 700; }
 .modal p { font-size: 13.5px; color: #555; line-height: 1.5; margin-bottom: 16px; }
 
-/* Step 1: confirm */
+/* Progress indicator */
+.steps-indicator { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 18px; }
+.step-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; transition: all .2s; }
+.step-dot.active { background: #e74c3c; width: 24px; border-radius: 4px; }
+.step-dot.done { background: #e8a030; }
+
+/* Buttons */
 .btn-yes { width: 100%; padding: 14px; background: #e74c3c; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
 .btn-yes:hover { background: #d43f2f; }
 .btn-no { width: 100%; padding: 14px; background: #fff; color: #e8a030; border: 2px solid #e8a030; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
 .btn-no:hover { background: #fffbf0; }
+.btn-next { width: 100%; padding: 14px; background: #e74c3c; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; opacity: 0.4; pointer-events: none; transition: opacity .2s; }
+.btn-next.enabled { opacity: 1; pointer-events: auto; cursor: pointer; }
+.btn-next.enabled:hover { background: #d43f2f; }
+.btn-back { width: 100%; padding: 14px; background: #fff; color: #888; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; cursor: pointer; margin-top: 8px; }
+.btn-skip { width: 100%; padding: 10px; background: none; border: none; color: #aaa; font-size: 13px; cursor: pointer; margin-top: 6px; text-decoration: underline; }
 
-/* Step 2: reason */
+/* Form fields */
+.field { margin-bottom: 16px; }
+.field-label { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 8px; }
+.field-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 16px; border: 2px solid #e0e0e0; border-radius: 20px; font-size: 13px; color: #555; cursor: pointer; transition: all .15s; background: #fff; }
+.chip:hover { border-color: #e8a030; }
+.chip.selected { border-color: #e74c3c; background: #fef5f4; color: #c0392b; font-weight: 600; }
+
+/* Reason list */
 .reason-list { list-style: none; margin-bottom: 18px; }
 .reason-list li { margin-bottom: 8px; }
 .reason-list label { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 14px; color: #333; cursor: pointer; transition: all .15s; }
@@ -47,14 +64,10 @@ header .avatar { width: 28px; height: 28px; border-radius: 50%; background: #ddd
 .reason-list input[type="radio"] { accent-color: #e74c3c; width: 18px; height: 18px; flex-shrink: 0; }
 .reason-list input[type="radio"]:checked + span { font-weight: 600; }
 .reason-list label:has(input:checked) { border-color: #e74c3c; background: #fef5f4; }
-.reason-other-text { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; resize: vertical; min-height: 60px; display: none; }
+.reason-other-text { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; resize: vertical; min-height: 60px; display: none; font-family: inherit; }
 .reason-other-text.visible { display: block; }
-.btn-submit-reason { width: 100%; padding: 14px; background: #e74c3c; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; opacity: 0.4; pointer-events: none; transition: opacity .2s; }
-.btn-submit-reason.enabled { opacity: 1; pointer-events: auto; cursor: pointer; }
-.btn-submit-reason.enabled:hover { background: #d43f2f; }
-.btn-back { width: 100%; padding: 14px; background: #fff; color: #888; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; cursor: pointer; margin-top: 8px; }
 
-/* Step 3: done */
+/* Done */
 .done-icon { font-size: 40px; text-align: center; margin-bottom: 12px; }
 .done-msg { text-align: center; font-size: 15px; color: #333; line-height: 1.6; margin-bottom: 20px; }
 .btn-close-done { width: 100%; padding: 14px; background: #e8a030; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
@@ -80,7 +93,6 @@ header .avatar { width: 28px; height: 28px; border-radius: 50%; background: #ddd
   </div>
 </div>
 
-<!-- Modal overlay -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -93,8 +105,57 @@ header .avatar { width: 28px; height: 28px; border-radius: 50%; background: #ddd
       <button class="btn-no" onclick="closeModal()">No, Keep Subscription</button>
     </div>
 
-    <!-- Step 2: Reason -->
+    <!-- Step 2: Attributes -->
     <div id="step2" style="display:none">
+      <div class="steps-indicator">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+      </div>
+      <div class="modal-header"><span class="icon">👤</span><h3>あなたについて教えてください</h3></div>
+      <p>よりよいサービス改善のため、差し支えなければお答えください。</p>
+
+      <div class="field">
+        <div class="field-label">性別</div>
+        <div class="field-options">
+          <div class="chip" onclick="selectChip(this,'gender')">男性</div>
+          <div class="chip" onclick="selectChip(this,'gender')">女性</div>
+          <div class="chip" onclick="selectChip(this,'gender')">その他</div>
+          <div class="chip" onclick="selectChip(this,'gender')">回答しない</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">年齢層</div>
+        <div class="field-options">
+          <div class="chip" onclick="selectChip(this,'age')">〜19歳</div>
+          <div class="chip" onclick="selectChip(this,'age')">20代</div>
+          <div class="chip" onclick="selectChip(this,'age')">30代</div>
+          <div class="chip" onclick="selectChip(this,'age')">40代</div>
+          <div class="chip" onclick="selectChip(this,'age')">50代〜</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">利用期間</div>
+        <div class="field-options">
+          <div class="chip" onclick="selectChip(this,'duration')">1ヶ月未満</div>
+          <div class="chip" onclick="selectChip(this,'duration')">1〜3ヶ月</div>
+          <div class="chip" onclick="selectChip(this,'duration')">3〜6ヶ月</div>
+          <div class="chip" onclick="selectChip(this,'duration')">6ヶ月〜1年</div>
+          <div class="chip" onclick="selectChip(this,'duration')">1年以上</div>
+        </div>
+      </div>
+
+      <button class="btn-next enabled" onclick="goStep(3)">次へ</button>
+      <button class="btn-skip" onclick="goStep(3)">スキップする</button>
+    </div>
+
+    <!-- Step 3: Reason -->
+    <div id="step3" style="display:none">
+      <div class="steps-indicator">
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+      </div>
       <div class="modal-header"><span class="icon">📋</span><h3>キャンセルの理由を教えてください</h3></div>
       <p>今後のサービス改善のため、キャンセル理由をお聞かせください。</p>
       <ul class="reason-list">
@@ -105,12 +166,12 @@ header .avatar { width: 28px; height: 28px; border-radius: 50%; background: #ddd
         <li><label><input type="radio" name="reason" value="other" onchange="onReasonChange()"><span>その他</span></label></li>
       </ul>
       <textarea class="reason-other-text" id="otherText" placeholder="理由を入力してください…"></textarea>
-      <button class="btn-submit-reason" id="btnSubmit" onclick="goStep(3)">キャンセルを確定する</button>
-      <button class="btn-back" onclick="goStep(1)">戻る</button>
+      <button class="btn-next" id="btnSubmit" onclick="goStep(4)">キャンセルを確定する</button>
+      <button class="btn-back" onclick="goStep(2)">戻る</button>
     </div>
 
-    <!-- Step 3: Done -->
-    <div id="step3" style="display:none">
+    <!-- Step 4: Done -->
+    <div id="step4" style="display:none">
       <div class="done-icon">✅</div>
       <div class="done-msg">サブスクリプションのキャンセルが<br>完了しました。<br><br><small style="color:#888">ご利用ありがとうございました。<br>次回の配達予定日まではご利用いただけます。</small></div>
       <button class="btn-close-done" onclick="closeModal()">閉じる</button>
@@ -123,9 +184,14 @@ function openModal() { document.getElementById('overlay').classList.add('active'
 function closeModal() { document.getElementById('overlay').classList.remove('active'); resetForm(); }
 
 function goStep(n) {
-  document.getElementById('step1').style.display = n===1 ? 'block' : 'none';
-  document.getElementById('step2').style.display = n===2 ? 'block' : 'none';
-  document.getElementById('step3').style.display = n===3 ? 'block' : 'none';
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('step'+i).style.display = i===n ? 'block' : 'none';
+  }
+}
+
+function selectChip(el, group) {
+  el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
 function onReasonChange() {
@@ -137,6 +203,7 @@ function onReasonChange() {
 }
 
 function resetForm() {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
   document.querySelectorAll('input[name="reason"]').forEach(r => r.checked = false);
   document.getElementById('otherText').value = '';
   document.getElementById('otherText').classList.remove('visible');
