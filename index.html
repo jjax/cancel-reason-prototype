@@ -24,8 +24,6 @@
   --border-strong: #CEC9C3;
   --danger: #C0392B;
   --danger-hover: #A93226;
-  --success-bg: #EDF7EE;
-  --success-text: #2E7D32;
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -38,156 +36,73 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Top Nav ── */
 .nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  position: sticky; top: 0; z-index: 50;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; height: 52px;
 }
-.nav-logo {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--brand);
-  letter-spacing: -0.3px;
-}
-.nav-user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-sub);
-}
+.nav-logo { font-size: 20px; font-weight: 600; color: var(--brand); letter-spacing: -0.3px; }
+.nav-user { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-sub); }
 .nav-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  width: 28px; height: 28px; border-radius: 50%;
   background: var(--brand-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--brand-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--brand-dark);
 }
 
-/* ── Page ── */
-.page {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 24px 16px 80px;
+.page { max-width: 480px; margin: 0 auto; padding: 24px 16px 80px; }
+
+.debug-toggle { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+.debug-label { font-size: 11px; color: var(--text-hint); }
+.debug-btn {
+  font-size: 12px; padding: 4px 12px; border-radius: 99px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text-sub); cursor: pointer;
+  transition: all 0.12s;
 }
+.debug-btn.active { background: var(--brand-light); border-color: var(--brand); color: var(--brand-dark); font-weight: 500; }
 
 .account-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  margin-bottom: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin-bottom: 16px;
 }
 .card-section-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text-hint);
-  padding: 14px 16px 8px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--text-hint); padding: 14px 16px 8px;
 }
 .info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 16px;
-  border-top: 1px solid var(--border);
-  font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 16px; border-top: 1px solid var(--border); font-size: 14px;
 }
 .info-val { color: var(--text-sub); }
 .info-val.accent { color: var(--brand); font-weight: 500; }
 
-.action-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-}
-.card-section-label-inline {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text-hint);
-  margin-bottom: 10px;
-}
+.action-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.card-section-label-inline { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-hint); margin-bottom: 10px; }
 
-/* Debug toggle (dev only) */
-.debug-toggle {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 20px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.debug-label { font-size: 11px; color: var(--text-hint); }
-.debug-btn {
-  font-size: 12px;
-  padding: 4px 12px;
-  border-radius: 99px;
-  border: 1px solid var(--border-strong);
-  background: var(--surface);
-  color: var(--text-sub);
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.debug-btn.active {
-  background: var(--brand-light);
-  border-color: var(--brand);
-  color: var(--brand-dark);
-  font-weight: 500;
-}
-
-/* ── Cancel button ── */
 .btn-cancel-outline {
-  width: 100%;
-  padding: 13px;
-  background: transparent;
-  border: 1px solid var(--brand);
-  border-radius: var(--radius-sm);
-  color: var(--brand);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: inherit;
+  width: 100%; padding: 13px;
+  background: transparent; border: 1px solid var(--brand);
+  border-radius: var(--radius-sm); color: var(--brand);
+  font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
   transition: background 0.15s;
 }
 .btn-cancel-outline:hover { background: var(--brand-light); }
 
-/* ── Modal overlay ── */
+/* ── Modal ── */
 .overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.48);
-  z-index: 100;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.48); z-index: 100;
+  align-items: flex-end; justify-content: center;
 }
 .overlay.open { display: flex; }
 
 .sheet {
-  background: var(--surface);
-  border-radius: 20px 20px 0 0;
-  width: 100%;
-  max-width: 480px;
-  max-height: 92vh;
-  overflow-y: auto;
-  padding: 0 20px 40px;
+  background: var(--surface); border-radius: 20px 20px 0 0;
+  width: 100%; max-width: 480px; max-height: 92vh;
+  overflow-y: auto; padding: 0 20px 48px;
   animation: slideUp 0.28s cubic-bezier(0.34,1.1,0.64,1);
 }
 @keyframes slideUp {
@@ -196,310 +111,161 @@ html, body {
 }
 
 .sheet-handle {
-  width: 40px;
-  height: 4px;
-  border-radius: 99px;
-  background: var(--border-strong);
-  margin: 10px auto 18px;
+  width: 40px; height: 4px; border-radius: 99px;
+  background: var(--border-strong); margin: 10px auto 18px;
 }
 
-.sheet-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 8px;
+/* ── Step UI ── */
+.step-header { margin-bottom: 20px; }
+.step-counter {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-hint); margin-bottom: 6px;
 }
-.sheet-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.3;
-}
-.sheet-close {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid var(--border-strong);
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: var(--text-sub);
-  flex-shrink: 0;
-  margin-left: 8px;
-  margin-top: 1px;
-  font-family: inherit;
-  transition: background 0.12s;
-}
-.sheet-close:hover { background: var(--border); }
-.sheet-sub {
-  font-size: 13px;
-  color: var(--text-sub);
-  line-height: 1.6;
-  margin-bottom: 18px;
-}
+.step-title { font-size: 17px; font-weight: 600; color: var(--text); line-height: 1.35; }
+.step-sub { font-size: 13px; color: var(--text-sub); margin-top: 5px; line-height: 1.55; }
 
-/* Progress */
-.progress-wrap {
-  height: 3px;
-  background: var(--border);
-  border-radius: 99px;
-  overflow: hidden;
-  margin-bottom: 22px;
+/* Progress dots */
+.progress-dots { display: flex; gap: 6px; margin-bottom: 22px; }
+.dot {
+  height: 4px; border-radius: 99px;
+  background: var(--border); flex: 1;
+  transition: background 0.3s;
 }
-.progress-fill {
-  height: 100%;
-  background: var(--brand);
-  border-radius: 99px;
-  transition: width 0.35s ease;
-}
+.dot.done { background: var(--brand); }
+.dot.active { background: var(--brand-mid); }
 
-/* ── Survey badge ── */
-.survey-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 99px;
-  margin-bottom: 16px;
-}
-.badge-first { background: var(--brand-light); color: var(--brand-dark); }
-.badge-repeat { background: #EDF7F5; color: #0E6B56; }
-
-/* ── Questions ── */
-.q-block { margin-bottom: 20px; }
-.q-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 10px;
-  line-height: 1.45;
-}
-.q-sub {
-  font-size: 11px;
-  color: var(--text-hint);
-  margin-bottom: 8px;
-  margin-top: -6px;
-}
-
-.options-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
+/* Radio options */
+.options-list { display: flex; flex-direction: column; gap: 5px; }
 .opt {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.4;
-  transition: border-color 0.1s, background 0.1s;
-  user-select: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 13px; border: 1px solid var(--border);
+  border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--text);
+  line-height: 1.4; transition: border-color 0.1s, background 0.1s; user-select: none;
 }
 .opt:hover { border-color: var(--brand-mid); background: var(--brand-light); }
-.opt.selected {
-  border-color: var(--brand);
-  background: var(--brand-light);
-  color: var(--brand-dark);
-}
-.opt input[type=radio],
-.opt input[type=checkbox] {
-  width: 15px;
-  height: 15px;
-  accent-color: var(--brand);
-  flex-shrink: 0;
-  cursor: pointer;
-}
+.opt.selected { border-color: var(--brand); background: var(--brand-light); color: var(--brand-dark); }
+.opt input[type=radio] { width: 15px; height: 15px; accent-color: var(--brand); flex-shrink: 0; cursor: pointer; }
 
-/* ── Chip selector (ranked) ── */
-.chips-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+/* Ranked chips */
+.chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 99px;
-  font-size: 12.5px;
-  color: var(--text-sub);
-  cursor: pointer;
-  user-select: none;
-  transition: border-color 0.12s, background 0.12s, color 0.12s;
-  line-height: 1.3;
+  position: relative; display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 99px;
+  font-size: 12.5px; color: var(--text-sub); cursor: pointer; user-select: none;
+  transition: border-color 0.12s, background 0.12s, color 0.12s; line-height: 1.3;
 }
-.chip:hover {
-  border-color: var(--brand-mid);
-  background: var(--brand-light);
-  color: var(--brand-dark);
-}
-.chip.rank-1 {
-  border-color: var(--brand);
-  background: var(--brand-light);
-  color: var(--brand-dark);
-  font-weight: 500;
-  padding-left: 10px;
-}
-.chip.rank-2, .chip.rank-3 {
-  border-color: var(--brand-mid);
-  background: var(--brand-light);
-  color: var(--brand-dark);
-  opacity: 0.85;
-  padding-left: 10px;
-}
-.chip.disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-.chip.disabled:hover {
-  border-color: var(--border);
-  background: transparent;
-  color: var(--text-sub);
-}
+.chip:hover { border-color: var(--brand-mid); background: var(--brand-light); color: var(--brand-dark); }
+.chip.rank-1 { border-color: var(--brand); background: var(--brand-light); color: var(--brand-dark); font-weight: 500; }
+.chip.rank-2, .chip.rank-3 { border-color: var(--brand-mid); background: var(--brand-light); color: var(--brand-dark); opacity: 0.88; }
+.chip.disabled { opacity: 0.3; cursor: not-allowed; }
+.chip.disabled:hover { border-color: var(--border); background: transparent; color: var(--text-sub); }
 .rank-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--brand);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
 }
-.rank-badge.rank-2-badge { background: var(--brand-mid); }
-.rank-badge.rank-3-badge { background: var(--brand-mid); opacity: 0.8; }
-.chips-hint {
-  font-size: 12px;
-  color: var(--text-hint);
-  margin-top: 8px;
+.rank-badge.b2 { background: var(--brand-mid); }
+.rank-badge.b3 { background: var(--brand-mid); opacity: 0.75; }
+.chips-hint { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.5; }
+
+/* ── Free text for "その他" ── */
+.other-input-wrap {
+  margin-top: 10px;
+  animation: fadeIn 0.18s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.other-input {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1.5px solid var(--brand);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  resize: vertical;
+  min-height: 72px;
   line-height: 1.5;
+  transition: border-color 0.15s;
 }
+.other-input:focus { border-color: var(--brand-dark); }
+.other-input::placeholder { color: var(--text-hint); }
+
 .rank-legend {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-  padding: 8px 12px;
-  background: var(--bg);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 12px; padding: 8px 12px;
+  background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border);
 }
-.rank-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: var(--text-sub);
-}
+.rank-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-sub); }
 
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin: 18px 0;
-}
-
-/* ── Action buttons ── */
-.btn-confirm {
-  width: 100%;
-  padding: 14px;
-  background: var(--danger);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  opacity: 0.35;
-  pointer-events: none;
+/* Nav buttons */
+.step-nav { display: flex; gap: 10px; margin-top: 20px; }
+.btn-next {
+  flex: 1; padding: 13px; background: var(--brand); border: none;
+  border-radius: var(--radius-sm); color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: inherit; opacity: 0.35; pointer-events: none;
   transition: opacity 0.2s, background 0.15s;
-  margin-bottom: 10px;
 }
-.btn-confirm.enabled {
-  opacity: 1;
-  pointer-events: auto;
+.btn-next.enabled { opacity: 1; pointer-events: auto; }
+.btn-next.enabled:hover { background: var(--brand-hover); }
+.btn-back {
+  padding: 13px 18px; background: transparent; border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); color: var(--text-sub); font-size: 14px;
+  cursor: pointer; font-family: inherit; transition: background 0.12s;
 }
-.btn-confirm.enabled:hover { background: var(--danger-hover); }
+.btn-back:hover { background: var(--bg); }
 
+/* Confirm step */
+.confirm-summary {
+  background: var(--bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 16px;
+}
+.confirm-row { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; }
+.confirm-label { color: var(--text-hint); }
+.confirm-val { color: var(--text); font-weight: 500; max-width: 60%; text-align: right; line-height: 1.4; }
+
+.btn-confirm-cancel {
+  width: 100%; padding: 14px; background: var(--danger); border: none;
+  border-radius: var(--radius-sm); color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: inherit; margin-bottom: 10px;
+  transition: background 0.15s;
+}
+.btn-confirm-cancel:hover { background: var(--danger-hover); }
 .btn-stay {
-  width: 100%;
-  padding: 13px;
-  background: transparent;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  color: var(--text-sub);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.12s, border-color 0.12s;
+  width: 100%; padding: 13px; background: transparent;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  color: var(--text-sub); font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: inherit; transition: background 0.12s, border-color 0.12s;
 }
 .btn-stay:hover { background: var(--bg); border-color: var(--brand); color: var(--brand); }
 
-.progress-label {
-  font-size: 12px;
-  color: var(--text-hint);
-  text-align: center;
-  margin-top: 10px;
-}
-
-/* ── Complete state ── */
-.complete-wrap {
-  text-align: center;
-  padding: 28px 0 12px;
-  display: none;
-}
+/* Complete */
+.complete-wrap { text-align: center; padding: 28px 0 12px; display: none; }
 .complete-wrap.show { display: block; }
 .complete-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--success-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 14px;
-  font-size: 24px;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #EDF7EE; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px; font-size: 24px; color: #2E7D32;
 }
-.complete-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
+.complete-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.complete-sub { font-size: 13px; color: var(--text-sub); line-height: 1.65; margin-bottom: 20px; }
+
+.btn-detail-survey {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; padding: 13px;
+  background: var(--brand-light); border: 1.5px solid var(--brand);
+  border-radius: var(--radius-sm); color: var(--brand-dark);
+  font-size: 13px; font-weight: 500; text-decoration: none;
+  margin-bottom: 8px; transition: background 0.15s; font-family: inherit;
 }
-.complete-sub {
-  font-size: 13px;
-  color: var(--text-sub);
-  line-height: 1.65;
-  margin-bottom: 20px;
-}
+.btn-detail-survey:hover { background: #f5e0cc; }
+.btn-detail-note { font-size: 11px; color: var(--text-hint); text-align: center; margin-bottom: 16px; }
 .btn-close-complete {
-  padding: 12px 32px;
-  background: var(--brand);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: inherit;
+  padding: 12px 32px; background: var(--brand); border: none;
+  border-radius: var(--radius-sm); color: #fff;
+  font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
   transition: background 0.15s;
 }
 .btn-close-complete:hover { background: var(--brand-hover); }
@@ -516,11 +282,9 @@ html, body {
 </nav>
 
 <div class="page">
-
-  <!-- Dev toggle: simulate first vs repeat cancel -->
   <div class="debug-toggle">
-    <span class="debug-label">🛠 Dev mode – キャンセルタイプ:</span>
-    <button class="debug-btn active" id="btn-mode-first" onclick="setMode('first')">初回キャンセル</button>
+    <span class="debug-label">🛠 Dev – キャンセルタイプ:</span>
+    <button class="debug-btn active" id="btn-mode-first" onclick="setMode('first')">初回</button>
     <button class="debug-btn" id="btn-mode-repeat" onclick="setMode('repeat')">2回目以降</button>
   </div>
 
@@ -536,54 +300,40 @@ html, body {
     <div class="card-section-label-inline">Account Actions</div>
     <button class="btn-cancel-outline" onclick="openModal()">Cancel Subscription</button>
   </div>
-
 </div>
 
-<!-- Modal -->
 <div class="overlay" id="overlay">
   <div class="sheet" id="sheet">
     <div class="sheet-handle"></div>
 
-    <!-- Survey form -->
-    <div id="survey-wrap">
-      <div class="sheet-head">
-        <div>
-          <div class="sheet-title" id="sheet-title">Before you go...</div>
-        </div>
-        <button class="sheet-close" onclick="closeModal()">✕</button>
+    <!-- Step view -->
+    <div id="step-view">
+      <div class="progress-dots" id="progress-dots"></div>
+      <div class="step-header">
+        <div class="step-counter" id="step-counter"></div>
+        <div class="step-title" id="step-title"></div>
+        <div class="step-sub" id="step-sub"></div>
       </div>
-      <p class="sheet-sub" id="sheet-sub"></p>
-
-      <div class="progress-wrap">
-        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-      </div>
-
-      <div id="questions-wrap"></div>
-
-      <div class="divider"></div>
-
-      <button class="btn-confirm" id="btn-confirm" onclick="doCancel()">Yes, Cancel Subscription</button>
-      <button class="btn-stay" onclick="closeModal()">No, Keep My Subscription</button>
-      <p class="progress-label" id="progress-label"></p>
+      <div id="step-body"></div>
+      <div class="step-nav" id="step-nav"></div>
     </div>
 
-    <!-- Complete state -->
+    <!-- Complete -->
     <div class="complete-wrap" id="complete-wrap">
       <div class="complete-icon">✓</div>
       <p class="complete-title">Subscription cancelled</p>
-      <p class="complete-sub">
-        ご回答ありがとうございました。<br>
-        Tsukliojにいつでも再サインインして再開できます。<br>
-        またのご利用をお待ちしています。
-      </p>
+      <p class="complete-sub">ご回答ありがとうございました。<br>Tsukliojにいつでも再サインインして再開できます。</p>
+      <a class="btn-detail-survey" href="https://forms.example.com/tsuklio-exit-survey" target="_blank">
+        より詳しいアンケートに回答する（所要時間 約5分）<span>→</span>
+      </a>
+      <p class="btn-detail-note">謝礼として10 SGDをご用意しています</p>
       <button class="btn-close-complete" onclick="closeModal()">Close</button>
     </div>
-
   </div>
 </div>
 
 <script>
-const REASONS_MAIN = [
+const REASONS = [
   '価格が高い',
   'お客様ご自身の味の嗜好に合わない',
   'ご家族の味の嗜好に合わない',
@@ -599,7 +349,6 @@ const REASONS_MAIN = [
   '一度試してみたかった',
   'その他'
 ];
-
 const HOUSEHOLDS = [
   '共働き世帯（お子さまあり）',
   '共働き世帯（お子さまなし）',
@@ -609,172 +358,262 @@ const HOUSEHOLDS = [
   '3世帯同居',
   'その他'
 ];
-
 const INTENTS = [
   '現在のプラン・サービス内容でも、しばらく時間が経てば再開したい',
   'プランやサービス内容が改善されれば再開したい',
   '再開するつもりはない'
 ];
 
-const REOPEN_REASONS = [
-  '価格・プランが改善された',
-  'メニューの種類・品質が改善された',
-  'ライフスタイルが変わった（引越し・育児など）',
-  'クーポンや特典があった',
-  '家族や友人に勧められた',
-  '他サービスをやめた',
-  'その他'
-];
-
+// ── State ──
 let mode = 'first';
+let currentStep = 0;
 let ans = {};
+
+// ── Step definitions ──
+function getSteps() {
+  if (mode === 'first') {
+    return [
+      {
+        key: 'household',
+        title: '現在の居住環境を教えてください',
+        sub: 'よりよいサービス改善のため、差し支えなければお答えください。',
+        type: 'radio',
+        options: HOUSEHOLDS,
+      },
+      {
+        key: 'ranked_reasons',
+        title: '解約理由を教えてください',
+        sub: '最大の理由から順にタップしてください（最大3つ）',
+        type: 'ranked',
+        options: REASONS,
+      },
+      {
+        key: 'intent',
+        title: '今後の再開意向はありますか？',
+        sub: null,
+        type: 'radio',
+        options: INTENTS,
+      },
+      {
+        key: '__confirm__',
+        title: '解約を確定しますか？',
+        sub: 'ご回答内容を確認してください。',
+        type: 'confirm',
+      }
+    ];
+  } else {
+    return [
+      {
+        key: 'ranked_reasons',
+        title: '解約理由を教えてください',
+        sub: '最大の理由から順にタップしてください（最大3つ）',
+        type: 'ranked',
+        options: REASONS,
+      },
+      {
+        key: 'intent',
+        title: '今後の再開意向はありますか？',
+        sub: null,
+        type: 'radio',
+        options: INTENTS,
+      },
+      {
+        key: '__confirm__',
+        title: '解約を確定しますか？',
+        sub: 'ご回答内容を確認してください。',
+        type: 'confirm',
+      }
+    ];
+  }
+}
 
 function setMode(m) {
   mode = m;
   ans = {};
+  currentStep = 0;
   document.getElementById('btn-mode-first').classList.toggle('active', m === 'first');
   document.getElementById('btn-mode-repeat').classList.toggle('active', m === 'repeat');
 }
 
 function openModal() {
   ans = {};
-  document.getElementById('survey-wrap').style.display = '';
+  currentStep = 0;
   document.getElementById('complete-wrap').classList.remove('show');
-  renderSheet();
+  document.getElementById('step-view').style.display = '';
+  renderStep();
   document.getElementById('overlay').classList.add('open');
   document.getElementById('sheet').scrollTop = 0;
 }
 
 function closeModal() {
   document.getElementById('overlay').classList.remove('open');
-  ans = {};
 }
 
-function renderSheet() {
-  if (mode === 'first') {
-    document.getElementById('sheet-title').textContent = 'Before you go…';
-    document.getElementById('sheet-sub').textContent =
-      'Please answer all questions below. Your feedback helps us improve Tsuklio.\nThe cancel button will become available once you have completed the survey.';
-    renderFirstSurvey();
+// ── Render current step ──
+function renderStep() {
+  const steps = getSteps();
+  const step = steps[currentStep];
+  const total = steps.length;
+
+  // Progress dots
+  const dotsEl = document.getElementById('progress-dots');
+  dotsEl.innerHTML = '';
+  steps.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+    dotsEl.appendChild(d);
+  });
+
+  // Header
+  const surveyStepNum = steps.filter(s => s.key !== '__confirm__').length;
+  const isConfirm = step.key === '__confirm__';
+  document.getElementById('step-counter').textContent =
+    isConfirm ? '' : `Step ${currentStep + 1} / ${surveyStepNum}`;
+  document.getElementById('step-title').textContent = step.title;
+  document.getElementById('step-sub').textContent = step.sub || '';
+
+  // Body
+  const body = document.getElementById('step-body');
+  body.innerHTML = '';
+
+  if (step.type === 'radio') {
+    body.appendChild(buildRadio(step.key, step.options));
+  } else if (step.type === 'ranked') {
+    body.appendChild(buildRankedChips(step.key, step.options));
+  } else if (step.type === 'confirm') {
+    body.appendChild(buildConfirm());
+  }
+
+  // Nav
+  renderNav(step);
+
+  document.getElementById('sheet').scrollTop = 0;
+}
+
+function renderNav(step) {
+  const nav = document.getElementById('step-nav');
+  nav.innerHTML = '';
+
+  const isFirst = currentStep === 0;
+  const isConfirm = step.key === '__confirm__';
+
+  // Back button (not on first step)
+  if (!isFirst) {
+    const back = document.createElement('button');
+    back.className = 'btn-back';
+    back.textContent = '← 戻る';
+    back.onclick = () => { currentStep--; renderStep(); };
+    nav.appendChild(back);
+  }
+
+  if (isConfirm) {
+    // Confirm step: two separate buttons stacked
+    nav.style.flexDirection = 'column';
+    const confirmBtn = document.createElement('button');
+    confirmBtn.className = 'btn-confirm-cancel';
+    confirmBtn.textContent = 'Yes, Cancel Subscription';
+    confirmBtn.onclick = doCancel;
+    nav.appendChild(confirmBtn);
+
+    const stayBtn = document.createElement('button');
+    stayBtn.className = 'btn-stay';
+    stayBtn.textContent = 'No, Keep My Subscription';
+    stayBtn.onclick = closeModal;
+    nav.appendChild(stayBtn);
   } else {
-    document.getElementById('sheet-title').textContent = 'One quick question';
-    document.getElementById('sheet-sub').textContent =
-      'Please answer the questions below before confirming. It only takes 30 seconds.';
-    renderRepeatSurvey();
+    nav.style.flexDirection = '';
+    const next = document.createElement('button');
+    next.id = 'btn-next';
+    next.className = 'btn-next' + (isStepAnswered(step) ? ' enabled' : '');
+    next.textContent = 'Next →';
+    next.onclick = () => { currentStep++; renderStep(); };
+    nav.appendChild(next);
   }
-  updateProgress();
 }
 
-function renderFirstSurvey() {
-  const wrap = document.getElementById('questions-wrap');
-  wrap.innerHTML = '';
-
-  // Q1 - 世帯構成
-  wrap.appendChild(buildRadio('q1', 'Q1. 現在の居住環境を教えてください', null, HOUSEHOLDS, 'household', v => {
-    ans.household = v;
-    updateProgress();
-  }, ans.household));
-
-  // Q2+Q3 combined - ranked reason chips
-  if (!ans.ranked_reasons) ans.ranked_reasons = [];
-  wrap.appendChild(buildRankedChips('q2', 'Q2. 解約理由を選んでください（最大3つ・タップした順が優先度順になります）',
-    REASONS_MAIN, vals => {
-      ans.ranked_reasons = vals;
-      ans.main_reason = vals[0] || null;
-      ans.top3 = vals.slice(1);
-      updateProgress();
-    }, ans.ranked_reasons));
-
-  // Q3 - 再開意向
-  wrap.appendChild(buildRadio('q3', 'Q3. 今後、再開意向はありますか？', null, INTENTS, 'intent', v => {
-    ans.intent = v;
-    updateProgress();
-  }, ans.intent));
-}
-
-
-
-function renderRepeatSurvey() {
-  const wrap = document.getElementById('questions-wrap');
-  wrap.innerHTML = '';
-
-  // Q1 - 解約最大理由 (same as first)
-  wrap.appendChild(buildRadio('q1', 'Q1. 解約する最大の理由を教えてください', null, REASONS_MAIN, 'main_reason', v => {
-    ans.main_reason = v;
-    updateProgress();
-  }, ans.main_reason));
-
-  // Q2 - 再開した理由 (repeat only)
-  wrap.appendChild(buildRadio('q2', 'Q2. 前回、再開された理由を教えてください', null, REOPEN_REASONS, 'reopen_reason', v => {
-    ans.reopen_reason = v;
-    updateProgress();
-  }, ans.reopen_reason));
-}
-
-function buildRadio(id, label, subLabel, options, key, onChange, current) {
-  const block = document.createElement('div');
-  block.className = 'q-block';
-  block.id = id + '-block';
-
-  const lbl = document.createElement('p');
-  lbl.className = 'q-label';
-  lbl.textContent = label;
-  block.appendChild(lbl);
-
-  if (subLabel) {
-    const sub = document.createElement('p');
-    sub.className = 'q-sub';
-    sub.textContent = subLabel;
-    block.appendChild(sub);
+function isStepAnswered(step) {
+  if (step.key === 'ranked_reasons') {
+    return ans.ranked_reasons && ans.ranked_reasons.length > 0;
   }
+  return !!ans[step.key];
+}
 
-  const list = document.createElement('div');
-  list.className = 'options-list';
+// ── Radio builder ──
+function buildRadio(key, options) {
+  const container = document.createElement('div');
+
+  const wrap = document.createElement('div');
+  wrap.className = 'options-list';
+
+  // その他テキスト欄
+  const otherWrap = document.createElement('div');
+  otherWrap.className = 'other-input-wrap';
+  otherWrap.style.display = 'none';
+  const otherInput = document.createElement('textarea');
+  otherInput.className = 'other-input';
+  otherInput.placeholder = '具体的に教えてください...';
+  otherInput.value = ans[key + '_other'] || '';
+  otherInput.addEventListener('input', () => {
+    ans[key + '_other'] = otherInput.value.trim();
+    updateNextBtn(key);
+  });
+  otherWrap.appendChild(otherInput);
+
+  function updateNextBtn(k) {
+    const nb = document.getElementById('btn-next');
+    if (!nb) return;
+    const val = ans[k];
+    if (val === 'その他') {
+      nb.classList.toggle('enabled', !!(ans[k + '_other'] && ans[k + '_other'].length > 0));
+    } else {
+      nb.classList.toggle('enabled', !!val);
+    }
+  }
 
   options.forEach(opt => {
     const item = document.createElement('label');
-    item.className = 'opt' + (current === opt ? ' selected' : '');
-
+    item.className = 'opt' + (ans[key] === opt ? ' selected' : '');
     const input = document.createElement('input');
     input.type = 'radio';
     input.name = key;
     input.value = opt;
-    input.checked = current === opt;
-
+    input.checked = ans[key] === opt;
     input.addEventListener('change', () => {
-      list.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
+      ans[key] = opt;
+      wrap.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
       item.classList.add('selected');
-      onChange(opt);
+      otherWrap.style.display = opt === 'その他' ? '' : 'none';
+      if (opt === 'その他') { otherInput.focus(); }
+      updateNextBtn(key);
     });
-
     item.appendChild(input);
     item.appendChild(document.createTextNode(opt));
-    list.appendChild(item);
+    wrap.appendChild(item);
   });
 
-  block.appendChild(list);
-  return block;
+  // 初期表示: 既にその他が選ばれていたら欄を出す
+  if (ans[key] === 'その他') otherWrap.style.display = '';
+
+  container.appendChild(wrap);
+  container.appendChild(otherWrap);
+  return container;
 }
 
-function buildRankedChips(id, label, options, onChange, currentVals) {
+// ── Ranked chips builder ──
+function buildRankedChips(key, options) {
+  if (!ans[key]) ans[key] = [];
+  const currentVals = ans[key];
   const MAX = 3;
-  const block = document.createElement('div');
-  block.className = 'q-block';
-  block.id = id + '-block';
 
-  const lbl = document.createElement('p');
-  lbl.className = 'q-label';
-  lbl.textContent = label;
-  block.appendChild(lbl);
+  const container = document.createElement('div');
 
-  // Legend
   const legend = document.createElement('div');
   legend.className = 'rank-legend';
   legend.innerHTML =
-    '<div class="rank-legend-item"><span class="rank-badge" style="background:var(--brand)">1</span><span>最大の理由</span></div>' +
-    '<div class="rank-legend-item"><span class="rank-badge rank-2-badge">2</span><span>2番目</span></div>' +
-    '<div class="rank-legend-item"><span class="rank-badge rank-3-badge">3</span><span>3番目（任意）</span></div>';
-  block.appendChild(legend);
+    '<div class="rank-legend-item"><span class="rank-badge">1</span><span>最大の理由</span></div>' +
+    '<div class="rank-legend-item"><span class="rank-badge b2">2</span><span>2番目</span></div>' +
+    '<div class="rank-legend-item"><span class="rank-badge b3">3</span><span>3番目（任意）</span></div>';
+  container.appendChild(legend);
 
   const wrap = document.createElement('div');
   wrap.className = 'chips-wrap';
@@ -786,28 +625,29 @@ function buildRankedChips(id, label, options, onChange, currentVals) {
     const sel = currentVals.length;
     hint.textContent = sel === 0
       ? '最大の理由から順にタップしてください'
-      : sel === MAX
-      ? 'タップして選択を解除できます'
-      : 'あと' + (MAX - sel) + 'つ追加できます（任意）';
+      : sel >= MAX ? 'タップして選択を解除できます' : 'あと' + (MAX - sel) + 'つ追加できます（任意）';
 
-    Array.from(wrap.children).forEach(chip => {
+    wrap.querySelectorAll('.chip').forEach(chip => {
       const v = chip.dataset.val;
       const rank = currentVals.indexOf(v);
+      // reset
       chip.className = 'chip';
-      // remove old badge
-      const existing = chip.querySelector('.rank-badge');
-      if (existing) existing.remove();
+      const old = chip.querySelector('.rank-badge');
+      if (old) old.remove();
 
       if (rank === -1) {
         if (sel >= MAX) chip.classList.add('disabled');
       } else {
         chip.classList.add('rank-' + (rank + 1));
         const badge = document.createElement('span');
-        badge.className = 'rank-badge' + (rank > 0 ? ' rank-' + (rank+1) + '-badge' : '');
+        badge.className = 'rank-badge' + (rank === 1 ? ' b2' : rank === 2 ? ' b3' : '');
         badge.textContent = rank + 1;
         chip.insertBefore(badge, chip.firstChild);
       }
     });
+
+    const nb = document.getElementById('btn-next');
+    if (nb) nb.classList.toggle('enabled', currentVals.length > 0);
   }
 
   options.forEach(opt => {
@@ -818,57 +658,99 @@ function buildRankedChips(id, label, options, onChange, currentVals) {
     chip.addEventListener('click', () => {
       if (chip.classList.contains('disabled')) return;
       const idx = currentVals.indexOf(opt);
-      if (idx === -1) {
-        if (currentVals.length < MAX) currentVals.push(opt);
-      } else {
-        currentVals.splice(idx, 1);
-      }
-      refresh();
-      onChange([...currentVals]);
+      if (idx === -1) { if (currentVals.length < MAX) currentVals.push(opt); }
+      else { currentVals.splice(idx, 1); }
+      ans[key] = [...currentVals];
+      // refreshWithOtherが定義されていれば使う（後から定義されるため）
+      if (typeof wrap._refresh === 'function') wrap._refresh();
+      else refresh();
     });
     wrap.appendChild(chip);
   });
 
-  refresh();
-  block.appendChild(wrap);
-  block.appendChild(hint);
-  return block;
-}
+  // その他テキスト欄
+  const otherWrap = document.createElement('div');
+  otherWrap.className = 'other-input-wrap';
+  otherWrap.style.display = currentVals.includes('その他') ? '' : 'none';
+  const otherInput = document.createElement('textarea');
+  otherInput.className = 'other-input';
+  otherInput.placeholder = '具体的に教えてください...';
+  otherInput.value = ans[key + '_other'] || '';
+  otherInput.addEventListener('input', () => {
+    ans[key + '_other'] = otherInput.value.trim();
+    const nb = document.getElementById('btn-next');
+    if (nb) nb.classList.toggle('enabled', currentVals.length > 0 && !(currentVals.includes('その他') && !ans[key + '_other']));
+  });
+  otherWrap.appendChild(otherInput);
 
-function updateProgress() {
-  let total, done;
-
-  if (mode === 'first') {
-    total = 3;
-    const q1 = ans.household ? 1 : 0;
-    const q2 = (ans.ranked_reasons && ans.ranked_reasons.length > 0) ? 1 : 0;
-    const q3 = ans.intent ? 1 : 0;
-    done = q1 + q2 + q3;
-  } else {
-    total = 2;
-    done = (ans.main_reason ? 1 : 0) + (ans.reopen_reason ? 1 : 0);
+  // refresh後にその他欄の表示を同期
+  const origRefresh = refresh;
+  function refreshWithOther() {
+    origRefresh();
+    const show = currentVals.includes('その他');
+    otherWrap.style.display = show ? '' : 'none';
+    if (show) { otherInput.focus(); }
+    // nextボタン: その他が含まれていてテキスト未入力はNG
+    const nb = document.getElementById('btn-next');
+    if (nb) {
+      const hasOtherText = !currentVals.includes('その他') || (ans[key + '_other'] && ans[key + '_other'].length > 0);
+      nb.classList.toggle('enabled', currentVals.length > 0 && hasOtherText);
+    }
   }
 
-  const pct = Math.round((done / total) * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
+  // チップのclickをrefreshWithOtherで再bindする必要があるのでwrapの処理を上書き
+  wrap.querySelectorAll('.chip').forEach(chip => {
+    const oldClick = chip.onclick;
+    chip.addEventListener('click', () => { refreshWithOther(); }, true);
+  });
 
-  const isComplete = done === total;
-  const btn = document.getElementById('btn-confirm');
-  btn.classList.toggle('enabled', isComplete);
+  // wrapにrefresh関数を登録（chip clickから参照できるように）
+  wrap._refresh = refreshWithOther;
+  // 初回refresh
+  refreshWithOther();
+  container.appendChild(wrap);
+  container.appendChild(hint);
+  container.appendChild(otherWrap);
+  return container;
+}
 
-  const remaining = total - done;
-  document.getElementById('progress-label').textContent = isComplete
-    ? 'All done — tap the button above to confirm cancellation.'
-    : `${remaining} question${remaining > 1 ? 's' : ''} remaining`;
+// ── Confirm summary builder ──
+function buildConfirm() {
+  const wrap = document.createElement('div');
+  const summary = document.createElement('div');
+  summary.className = 'confirm-summary';
+
+  function row(label, val) {
+    if (!val) return;
+    const r = document.createElement('div');
+    r.className = 'confirm-row';
+    r.innerHTML = `<span class="confirm-label">${label}</span><span class="confirm-val">${val}</span>`;
+    summary.appendChild(r);
+  }
+
+  if (mode === 'first') {
+    const hh = ans.household === 'その他' ? 'その他：' + (ans.household_other || '') : ans.household;
+    row('居住環境', hh);
+  }
+
+  const ranked = ans.ranked_reasons || [];
+  const otherText = ans.ranked_reasons_other ? '（' + ans.ranked_reasons_other + '）' : '';
+  if (ranked[0]) row('最大の解約理由', ranked[0] === 'その他' ? 'その他' + otherText : ranked[0]);
+  if (ranked[1]) row('2番目の理由', ranked[1] === 'その他' ? 'その他' + otherText : ranked[1]);
+  if (ranked[2]) row('3番目の理由', ranked[2] === 'その他' ? 'その他' + otherText : ranked[2]);
+  const intentVal = ans.intent === 'その他' ? 'その他：' + (ans.intent_other || '') : ans.intent;
+  row('再開意向', intentVal);
+
+  wrap.appendChild(summary);
+  return wrap;
 }
 
 function doCancel() {
-  document.getElementById('survey-wrap').style.display = 'none';
+  document.getElementById('step-view').style.display = 'none';
   document.getElementById('complete-wrap').classList.add('show');
   document.getElementById('sheet').scrollTop = 0;
 }
 
-// Close on overlay click
 document.getElementById('overlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
