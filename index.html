@@ -334,20 +334,20 @@ html, body {
 
 <script>
 const REASONS = [
-  '価格が高い',
-  'お客様ご自身の味の嗜好に合わない',
-  'ご家族の味の嗜好に合わない',
-  'メニューに飽きた',
-  '受け取りたい曜日・時間帯で受け取れない',
-  '1食あたりの量が足りない',
-  '1食あたりの量が多い',
-  'メニューをカスタムできない',
-  'メニュー情報が少ない',
-  '世帯人数に対してプランが合っていない',
-  'より良いサービスを見つけた',
-  'ライフスタイルが変化した',
-  '一度試してみたかった',
-  'その他'
+  'Price: It\'s a bit too pricey for me.',
+  'Personal Taste: The flavors didn\'t quite match my preferences.',
+  'Family Feedback: My family didn\'t enjoy the taste.',
+  'Lack of Variety: I got bored with the menu options.',
+  'Delivery Issues: I couldn\'t get my preferred delivery days or times.',
+  'Portion Size: The portions were too small.',
+  'Portion Size: The portions were too large.',
+  'Customization: I wanted more flexibility to customize my meals.',
+  'Menu Details: There wasn\'t enough info about the ingredients/dishes.',
+  'Plan Fit: The plan size didn\'t work for my household.',
+  'Competitor: I found another service that fits my needs better.',
+  'Life Changes: My lifestyle or daily routine changed.',
+  'One-time Trial: I only intended to try it once.',
+  'Other'
 ];
 const HOUSEHOLDS = [
   '共働き世帯（お子さまあり）',
@@ -359,9 +359,9 @@ const HOUSEHOLDS = [
   'その他'
 ];
 const INTENTS = [
-  '現在のプラン・サービス内容でも、しばらく時間が経てば再開したい',
-  'プランやサービス内容が改善されれば再開したい',
-  '再開するつもりはない'
+  'Yes, once my situation changes.',
+  'Yes, if the service improves.',
+  'No, I don\'t plan to return.'
 ];
 
 // ── State ──
@@ -382,14 +382,14 @@ function getSteps() {
       },
       {
         key: 'ranked_reasons',
-        title: '解約理由を教えてください',
-        sub: '最大の理由から順にタップしてください（最大3つ）',
+        title: 'We\'re sorry to see you go. Could you tell us the top 3 reasons why?',
+        sub: 'Tap in order from your top reason (up to 3)',
         type: 'ranked',
         options: REASONS,
       },
       {
         key: 'intent',
-        title: '今後の再開意向はありますか？',
+        title: 'How likely are you to consider using our service again in the future?',
         sub: null,
         type: 'radio',
         options: INTENTS,
@@ -404,15 +404,15 @@ function getSteps() {
   } else {
     return [
       {
-        key: 'ranked_reasons',
-        title: '解約理由を教えてください',
-        sub: '最大の理由から順にタップしてください（最大3つ）',
-        type: 'ranked',
+        key: 'main_reason',
+        title: 'We\'re sorry to see you go. Since you\'ve been with us before, your feedback is incredibly valuable. What was the main reason for your cancellation this time?',
+        sub: null,
+        type: 'radio',
         options: REASONS,
       },
       {
         key: 'intent',
-        title: '今後の再開意向はありますか？',
+        title: 'How likely are you to consider using our service again in the future?',
         sub: null,
         type: 'radio',
         options: INTENTS,
@@ -538,6 +538,8 @@ function isStepAnswered(step) {
   return !!ans[step.key];
 }
 
+const OTHER_LABEL = 'Other';
+
 // ── Radio builder ──
 function buildRadio(key, options) {
   const container = document.createElement('div');
@@ -551,7 +553,7 @@ function buildRadio(key, options) {
   otherWrap.style.display = 'none';
   const otherInput = document.createElement('textarea');
   otherInput.className = 'other-input';
-  otherInput.placeholder = '具体的に教えてください...';
+  otherInput.placeholder = 'Please tell us more...';
   otherInput.value = ans[key + '_other'] || '';
   otherInput.addEventListener('input', () => {
     ans[key + '_other'] = otherInput.value.trim();
@@ -563,7 +565,7 @@ function buildRadio(key, options) {
     const nb = document.getElementById('btn-next');
     if (!nb) return;
     const val = ans[k];
-    if (val === 'その他') {
+    if (val === OTHER_LABEL) {
       nb.classList.toggle('enabled', !!(ans[k + '_other'] && ans[k + '_other'].length > 0));
     } else {
       nb.classList.toggle('enabled', !!val);
@@ -582,8 +584,8 @@ function buildRadio(key, options) {
       ans[key] = opt;
       wrap.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
       item.classList.add('selected');
-      otherWrap.style.display = opt === 'その他' ? '' : 'none';
-      if (opt === 'その他') { otherInput.focus(); }
+      otherWrap.style.display = opt === OTHER_LABEL ? '' : 'none';
+      if (opt === OTHER_LABEL) { otherInput.focus(); }
       updateNextBtn(key);
     });
     item.appendChild(input);
@@ -591,8 +593,8 @@ function buildRadio(key, options) {
     wrap.appendChild(item);
   });
 
-  // 初期表示: 既にその他が選ばれていたら欄を出す
-  if (ans[key] === 'その他') otherWrap.style.display = '';
+  // Show text field if "Other" is already selected
+  if (ans[key] === OTHER_LABEL) otherWrap.style.display = '';
 
   container.appendChild(wrap);
   container.appendChild(otherWrap);
@@ -610,9 +612,9 @@ function buildRankedChips(key, options) {
   const legend = document.createElement('div');
   legend.className = 'rank-legend';
   legend.innerHTML =
-    '<div class="rank-legend-item"><span class="rank-badge">1</span><span>最大の理由</span></div>' +
-    '<div class="rank-legend-item"><span class="rank-badge b2">2</span><span>2番目</span></div>' +
-    '<div class="rank-legend-item"><span class="rank-badge b3">3</span><span>3番目（任意）</span></div>';
+    '<div class="rank-legend-item"><span class="rank-badge">1</span><span>Top reason</span></div>' +
+    '<div class="rank-legend-item"><span class="rank-badge b2">2</span><span>2nd</span></div>' +
+    '<div class="rank-legend-item"><span class="rank-badge b3">3</span><span>3rd (optional)</span></div>';
   container.appendChild(legend);
 
   const wrap = document.createElement('div');
@@ -624,8 +626,8 @@ function buildRankedChips(key, options) {
   function refresh() {
     const sel = currentVals.length;
     hint.textContent = sel === 0
-      ? '最大の理由から順にタップしてください'
-      : sel >= MAX ? 'タップして選択を解除できます' : 'あと' + (MAX - sel) + 'つ追加できます（任意）';
+      ? 'Tap in order from your top reason'
+      : sel >= MAX ? 'Tap to deselect' : 'You can add ' + (MAX - sel) + ' more (optional)';
 
     wrap.querySelectorAll('.chip').forEach(chip => {
       const v = chip.dataset.val;
@@ -671,15 +673,15 @@ function buildRankedChips(key, options) {
   // その他テキスト欄
   const otherWrap = document.createElement('div');
   otherWrap.className = 'other-input-wrap';
-  otherWrap.style.display = currentVals.includes('その他') ? '' : 'none';
+  otherWrap.style.display = currentVals.includes(OTHER_LABEL) ? '' : 'none';
   const otherInput = document.createElement('textarea');
   otherInput.className = 'other-input';
-  otherInput.placeholder = '具体的に教えてください...';
+  otherInput.placeholder = 'Please tell us more...';
   otherInput.value = ans[key + '_other'] || '';
   otherInput.addEventListener('input', () => {
     ans[key + '_other'] = otherInput.value.trim();
     const nb = document.getElementById('btn-next');
-    if (nb) nb.classList.toggle('enabled', currentVals.length > 0 && !(currentVals.includes('その他') && !ans[key + '_other']));
+    if (nb) nb.classList.toggle('enabled', currentVals.length > 0 && !(currentVals.includes(OTHER_LABEL) && !ans[key + '_other']));
   });
   otherWrap.appendChild(otherInput);
 
@@ -687,13 +689,13 @@ function buildRankedChips(key, options) {
   const origRefresh = refresh;
   function refreshWithOther() {
     origRefresh();
-    const show = currentVals.includes('その他');
+    const show = currentVals.includes(OTHER_LABEL);
     otherWrap.style.display = show ? '' : 'none';
     if (show) { otherInput.focus(); }
-    // nextボタン: その他が含まれていてテキスト未入力はNG
+    // Disable Next if "Other" is selected but text field is empty
     const nb = document.getElementById('btn-next');
     if (nb) {
-      const hasOtherText = !currentVals.includes('その他') || (ans[key + '_other'] && ans[key + '_other'].length > 0);
+      const hasOtherText = !currentVals.includes(OTHER_LABEL) || (ans[key + '_other'] && ans[key + '_other'].length > 0);
       nb.classList.toggle('enabled', currentVals.length > 0 && hasOtherText);
     }
   }
@@ -731,15 +733,20 @@ function buildConfirm() {
   if (mode === 'first') {
     const hh = ans.household === 'その他' ? 'その他：' + (ans.household_other || '') : ans.household;
     row('居住環境', hh);
+
+    const ranked = ans.ranked_reasons || [];
+    const otherText = ans.ranked_reasons_other ? ' (' + ans.ranked_reasons_other + ')' : '';
+    if (ranked[0]) row('Top reason', ranked[0] === OTHER_LABEL ? 'Other' + otherText : ranked[0]);
+    if (ranked[1]) row('2nd reason', ranked[1] === OTHER_LABEL ? 'Other' + otherText : ranked[1]);
+    if (ranked[2]) row('3rd reason', ranked[2] === OTHER_LABEL ? 'Other' + otherText : ranked[2]);
+  } else {
+    const mainOtherText = ans.main_reason_other ? ' (' + ans.main_reason_other + ')' : '';
+    const mainVal = ans.main_reason === OTHER_LABEL ? 'Other' + mainOtherText : ans.main_reason;
+    row('Main reason', mainVal);
   }
 
-  const ranked = ans.ranked_reasons || [];
-  const otherText = ans.ranked_reasons_other ? '（' + ans.ranked_reasons_other + '）' : '';
-  if (ranked[0]) row('最大の解約理由', ranked[0] === 'その他' ? 'その他' + otherText : ranked[0]);
-  if (ranked[1]) row('2番目の理由', ranked[1] === 'その他' ? 'その他' + otherText : ranked[1]);
-  if (ranked[2]) row('3番目の理由', ranked[2] === 'その他' ? 'その他' + otherText : ranked[2]);
-  const intentVal = ans.intent === 'その他' ? 'その他：' + (ans.intent_other || '') : ans.intent;
-  row('再開意向', intentVal);
+  const intentVal = ans.intent === OTHER_LABEL ? 'Other: ' + (ans.intent_other || '') : ans.intent;
+  row('Reactivation intent', intentVal);
 
   wrap.appendChild(summary);
   return wrap;
