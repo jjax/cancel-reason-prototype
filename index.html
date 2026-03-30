@@ -374,13 +374,6 @@ function getSteps() {
   if (mode === 'first') {
     return [
       {
-        key: 'household',
-        title: '現在の居住環境を教えてください',
-        sub: 'よりよいサービス改善のため、差し支えなければお答えください。',
-        type: 'radio',
-        options: HOUSEHOLDS,
-      },
-      {
         key: 'ranked_reasons',
         title: 'We\'re sorry to see you go. Could you tell us the top 3 reasons why?',
         sub: 'Tap in order from your top reason (up to 3)',
@@ -731,9 +724,6 @@ function buildConfirm() {
   }
 
   if (mode === 'first') {
-    const hh = ans.household === 'その他' ? 'その他：' + (ans.household_other || '') : ans.household;
-    row('居住環境', hh);
-
     const ranked = ans.ranked_reasons || [];
     const otherText = ans.ranked_reasons_other ? ' (' + ans.ranked_reasons_other + ')' : '';
     if (ranked[0]) row('Top reason', ranked[0] === OTHER_LABEL ? 'Other' + otherText : ranked[0]);
