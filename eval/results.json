@@ -1,0 +1,418 @@
+{
+  "generatedAt": "2026-09-24T05:37:48.620Z",
+  "model": "jev-1.13.0",
+  "rows": [
+    {
+      "id": "C01",
+      "note": "価格が1位、味が2位",
+      "mode": "first",
+      "reasons": [
+        "Price: It's a bit too pricey for me.",
+        "Personal Taste: The flavors didn't quite match my preferences."
+      ],
+      "otherText": null,
+      "intent": "Yes, if the service improves.",
+      "offer": "discount",
+      "show": true,
+      "confidence": 1,
+      "receptive": 0.77,
+      "runnerUp": "delivery_flex",
+      "probabilities": {
+        "delivery_flex": 0,
+        "menu_refresh": 0,
+        "pause": 0,
+        "plan_resize": 0,
+        "discount": 1,
+        "no_offer": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 949,
+        "output_tokens": 83
+      },
+      "ms": 450
+    },
+    {
+      "id": "C02",
+      "note": "配送日が合わない",
+      "mode": "first",
+      "reasons": [
+        "Delivery Issues: I couldn't get my preferred delivery days or times."
+      ],
+      "otherText": null,
+      "intent": "Yes, once my situation changes.",
+      "offer": "delivery_flex",
+      "show": true,
+      "confidence": 1,
+      "receptive": 0.79,
+      "runnerUp": "pause",
+      "probabilities": {
+        "pause": 0,
+        "menu_refresh": 0,
+        "plan_resize": 0,
+        "delivery_flex": 1,
+        "no_offer": 0,
+        "discount": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 937,
+        "output_tokens": 85
+      },
+      "ms": 438
+    },
+    {
+      "id": "C03",
+      "note": "他社へ乗り換え、戻る気なし",
+      "mode": "repeat",
+      "reasons": [
+        "Competitor: I found another service that fits my needs better."
+      ],
+      "otherText": null,
+      "intent": "No, I don't plan to return.",
+      "offer": "no_offer",
+      "show": false,
+      "confidence": 0.99,
+      "receptive": 0.13,
+      "runnerUp": "plan_resize",
+      "probabilities": {
+        "plan_resize": 0,
+        "menu_refresh": 0,
+        "pause": 0,
+        "discount": 0,
+        "no_offer": 1,
+        "delivery_flex": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 946,
+        "output_tokens": 84
+      },
+      "ms": 160
+    },
+    {
+      "id": "C04",
+      "note": "量が少ない + 世帯に合わない",
+      "mode": "first",
+      "reasons": [
+        "Portion Size: The portions were too small.",
+        "Plan Fit: The plan size didn't work for my household."
+      ],
+      "otherText": null,
+      "intent": "Yes, if the service improves.",
+      "offer": "plan_resize",
+      "show": true,
+      "confidence": 1,
+      "receptive": 0.77,
+      "runnerUp": "discount",
+      "probabilities": {
+        "no_offer": 0,
+        "discount": 0,
+        "pause": 0,
+        "delivery_flex": 0,
+        "menu_refresh": 0,
+        "plan_resize": 1
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 949,
+        "output_tokens": 84
+      },
+      "ms": 167
+    },
+    {
+      "id": "C05",
+      "note": "飽きた + カスタマイズしたい",
+      "mode": "first",
+      "reasons": [
+        "Lack of Variety: I got bored with the menu options.",
+        "Customization: I wanted more flexibility to customize my meals."
+      ],
+      "otherText": null,
+      "intent": "Yes, if the service improves.",
+      "offer": "menu_refresh",
+      "show": true,
+      "confidence": 1,
+      "receptive": 0.79,
+      "runnerUp": "discount",
+      "probabilities": {
+        "discount": 0,
+        "no_offer": 0,
+        "pause": 0,
+        "delivery_flex": 0,
+        "menu_refresh": 1,
+        "plan_resize": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 953,
+        "output_tokens": 84
+      },
+      "ms": 143
+    },
+    {
+      "id": "C06",
+      "note": "Other: 東京へ引っ越し（一時的でない）",
+      "mode": "first",
+      "reasons": [
+        "Other"
+      ],
+      "otherText": "We are relocating to Tokyo next month, so we can't receive deliveries in Singapore anymore.",
+      "intent": "No, I don't plan to return.",
+      "offer": "no_offer",
+      "show": false,
+      "confidence": 0.94,
+      "receptive": 0.04,
+      "runnerUp": "pause",
+      "probabilities": {
+        "no_offer": 0.95,
+        "menu_refresh": 0,
+        "pause": 0.05,
+        "delivery_flex": 0,
+        "discount": 0,
+        "plan_resize": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 947,
+        "output_tokens": 84
+      },
+      "ms": 428
+    },
+    {
+      "id": "C07",
+      "note": "Other: 3か月の海外滞在（一時的）",
+      "mode": "repeat",
+      "reasons": [
+        "Other"
+      ],
+      "otherText": "Travelling for work for about 3 months, will be back in January.",
+      "intent": "Yes, once my situation changes.",
+      "offer": "pause",
+      "show": true,
+      "confidence": 0.96,
+      "receptive": 0.66,
+      "runnerUp": "plan_resize",
+      "probabilities": {
+        "plan_resize": 0,
+        "pause": 0.97,
+        "discount": 0,
+        "delivery_flex": 0,
+        "menu_refresh": 0,
+        "no_offer": 0.03
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 949,
+        "output_tokens": 83
+      },
+      "ms": 114
+    },
+    {
+      "id": "C08",
+      "note": "Other: 配送品質の問題（Delivery Issuesではなく自由記述）",
+      "mode": "first",
+      "reasons": [
+        "Other",
+        "Price: It's a bit too pricey for me."
+      ],
+      "otherText": "Twice the box was left outside in the sun and the food was spoiled by the time I got home.",
+      "intent": "Yes, if the service improves.",
+      "offer": "delivery_flex",
+      "show": true,
+      "confidence": 0.89,
+      "receptive": 0.76,
+      "runnerUp": "discount",
+      "probabilities": {
+        "menu_refresh": 0,
+        "no_offer": 0.05,
+        "plan_resize": 0,
+        "pause": 0,
+        "delivery_flex": 0.91,
+        "discount": 0.04
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 961,
+        "output_tokens": 85
+      },
+      "ms": 155
+    },
+    {
+      "id": "C09",
+      "note": "Other: ハラール対応が無い",
+      "mode": "first",
+      "reasons": [
+        "Other"
+      ],
+      "otherText": "We need halal options and most of the dishes aren't.",
+      "intent": "Yes, if the service improves.",
+      "offer": "menu_refresh",
+      "show": true,
+      "confidence": 0.53,
+      "receptive": 0.74,
+      "runnerUp": "pause",
+      "probabilities": {
+        "pause": 0,
+        "no_offer": 0.39,
+        "plan_resize": 0,
+        "menu_refresh": 0.61,
+        "delivery_flex": 0,
+        "discount": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 937,
+        "output_tokens": 84
+      },
+      "ms": 191
+    },
+    {
+      "id": "C10",
+      "note": "家族が不満 + 価格",
+      "mode": "first",
+      "reasons": [
+        "Family Feedback: My family didn't enjoy the taste.",
+        "Price: It's a bit too pricey for me."
+      ],
+      "otherText": null,
+      "intent": "Yes, if the service improves.",
+      "offer": "menu_refresh",
+      "show": true,
+      "confidence": 1,
+      "receptive": 0.75,
+      "runnerUp": "discount",
+      "probabilities": {
+        "discount": 0,
+        "no_offer": 0,
+        "delivery_flex": 0,
+        "pause": 0,
+        "menu_refresh": 1,
+        "plan_resize": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 948,
+        "output_tokens": 84
+      },
+      "ms": 170
+    },
+    {
+      "id": "C11",
+      "note": "お試しのつもりだった、戻る気なし",
+      "mode": "first",
+      "reasons": [
+        "One-time Trial: I only intended to try it once."
+      ],
+      "otherText": null,
+      "intent": "No, I don't plan to return.",
+      "offer": "no_offer",
+      "show": false,
+      "confidence": 0.62,
+      "receptive": 0.13,
+      "runnerUp": "pause",
+      "probabilities": {
+        "menu_refresh": 0,
+        "no_offer": 0.69,
+        "plan_resize": 0,
+        "pause": 0.31,
+        "delivery_flex": 0,
+        "discount": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 937,
+        "output_tokens": 84
+      },
+      "ms": 176
+    },
+    {
+      "id": "C12",
+      "note": "生活変化 + 価格、状況次第で復帰",
+      "mode": "first",
+      "reasons": [
+        "Life Changes: My lifestyle or daily routine changed.",
+        "Price: It's a bit too pricey for me."
+      ],
+      "otherText": null,
+      "intent": "Yes, once my situation changes.",
+      "offer": "pause",
+      "show": true,
+      "confidence": 0.99,
+      "receptive": 0.67,
+      "runnerUp": "menu_refresh",
+      "probabilities": {
+        "no_offer": 0.01,
+        "menu_refresh": 0,
+        "pause": 0.99,
+        "delivery_flex": 0,
+        "plan_resize": 0,
+        "discount": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 947,
+        "output_tokens": 83
+      },
+      "ms": 278
+    },
+    {
+      "id": "C13",
+      "note": "価格だが戻る気なし（割引で翻意するか）",
+      "mode": "repeat",
+      "reasons": [
+        "Price: It's a bit too pricey for me."
+      ],
+      "otherText": null,
+      "intent": "No, I don't plan to return.",
+      "offer": "discount",
+      "show": false,
+      "confidence": 0.67,
+      "receptive": 0.29,
+      "runnerUp": "plan_resize",
+      "probabilities": {
+        "plan_resize": 0,
+        "menu_refresh": 0,
+        "pause": 0,
+        "discount": 0.73,
+        "no_offer": 0.27,
+        "delivery_flex": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 943,
+        "output_tokens": 83
+      },
+      "ms": 197
+    },
+    {
+      "id": "C14",
+      "note": "Other: 値上げへの不満（Priceを選ばず自由記述）",
+      "mode": "first",
+      "reasons": [
+        "Other"
+      ],
+      "otherText": "The weekly price went up twice since I joined and it's no longer worth it for us.",
+      "intent": "Yes, if the service improves.",
+      "offer": "discount",
+      "show": true,
+      "confidence": 0.99,
+      "receptive": 0.78,
+      "runnerUp": "pause",
+      "probabilities": {
+        "pause": 0,
+        "menu_refresh": 0,
+        "no_offer": 0.01,
+        "delivery_flex": 0,
+        "discount": 0.99,
+        "plan_resize": 0
+      },
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 944,
+        "output_tokens": 83
+      },
+      "ms": 582
+    }
+  ]
+}
