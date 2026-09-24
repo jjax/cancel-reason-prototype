@@ -16,6 +16,8 @@
 npm install
 TYPESAFE_API_KEY=... npm start     # http://localhost:3000
 npm test                           # 判定ロジックのユニットテスト
+TYPESAFE_API_KEY=... node scripts/eval-offers.mjs --out eval/results.json
+                                   # eval/cases.json の解約パターンをJevに流して一覧表を出す
 ```
 
 - キーはサーバー側だけが持つ。ページには渡さない。
@@ -30,6 +32,7 @@ npm test                           # 判定ロジックのユニットテスト
 | `offer-judgment.mjs` | state の組み立て、Jev への2問（`offer`: choice / `receptive`: noul）、表示方針 `decide()` |
 | `server.mjs` | 静的配信 + `/api/offer` プロキシ + `/api/health` |
 | `test/` | `node --test` |
+| `eval/cases.json`, `scripts/eval-offers.mjs` | 判定精度の確認用。実際の解約パターン14件を流して表にする |
 
 ## 判定の設計メモ
 
