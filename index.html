@@ -217,6 +217,29 @@ html, body {
 }
 .btn-back:hover { background: var(--bg); }
 
+/* Retention offer step */
+.offer-card {
+  background: var(--brand-light); border: 1.5px solid var(--brand-mid);
+  border-radius: var(--radius); padding: 18px 16px; animation: fadeIn 0.18s ease;
+}
+.offer-badge {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--brand-dark); background: var(--surface);
+  border: 1px solid var(--brand-mid); border-radius: 99px; padding: 3px 9px; margin-bottom: 10px;
+}
+.offer-title { font-size: 17px; font-weight: 700; color: var(--brand-dark); line-height: 1.3; margin-bottom: 6px; }
+.offer-desc { font-size: 13px; color: var(--text-sub); line-height: 1.55; }
+.offer-basis { font-size: 11px; color: var(--text-hint); margin-top: 12px; }
+.btn-keep-offer {
+  width: 100%; padding: 14px; background: var(--brand); border: none;
+  border-radius: var(--radius-sm); color: #fff; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: inherit; margin-bottom: 10px; transition: background 0.15s;
+}
+.btn-keep-offer:hover { background: var(--brand-hover); }
+.complete-icon.kept { background: var(--brand-light); color: var(--brand); }
+.debug-offer { font-size: 11px; color: var(--text-hint); margin: -12px 0 16px; line-height: 1.5; }
+.debug-offer:empty { display: none; }
+
 /* Confirm step */
 .confirm-summary {
   background: var(--bg); border-radius: var(--radius-sm);
@@ -287,6 +310,7 @@ html, body {
     <button class="debug-btn active" id="btn-mode-first" onclick="setMode('first')">初回</button>
     <button class="debug-btn" id="btn-mode-repeat" onclick="setMode('repeat')">2回目以降</button>
   </div>
+  <div class="debug-offer" id="debug-offer"></div>
 
   <div class="account-card">
     <div class="card-section-label">Subscription</div>
@@ -329,6 +353,14 @@ html, body {
       <p class="btn-detail-note">謝礼として10 SGDをご用意しています</p>
       <button class="btn-close-complete" onclick="closeModal()">Close</button>
     </div>
+
+    <!-- Kept (retention offer accepted) -->
+    <div class="complete-wrap" id="kept-wrap">
+      <div class="complete-icon kept">✓</div>
+      <p class="complete-title">Your subscription continues</p>
+      <p class="complete-sub"><strong id="kept-offer-title"></strong> has been applied to your account.<br>Your next delivery is still Sun, 22 Mar.</p>
+      <button class="btn-close-complete" onclick="closeModal()">Close</button>
+    </div>
   </div>
 </div>
 
@@ -364,6 +396,97 @@ const INTENTS = [
   'No, I don\'t plan to return.'
 ];
 
+// ── Retention offer (TypeSafe / Jev via server, rule-based fallback) ──
+// Offer ids match OFFERS in offer-judgment.mjs; copy shown to the customer lives here.
+const OFFER_CATALOG = {
+  discount:      { title: '20% off your next 2 deliveries', desc: 'Keep your plan and we\'ll take 20% off the next two weekly charges. No code needed.' },
+  delivery_flex: { title: 'Pick a better delivery day',     desc: 'Change your delivery day or time window anytime, and skip any week for free.' },
+  menu_refresh:  { title: 'Menus tuned to your taste',      desc: 'Set a taste profile (dislikes, spice level, family preferences) and get early access to the new seasonal menus.' },
+  plan_resize:   { title: 'Resize your portions',           desc: 'Switch portion size or number of servings per delivery at no extra charge, starting next week.' },
+  pause:         { title: 'Pause instead of cancel',        desc: 'Pause for up to 8 weeks with no charges, then resume with one tap whenever you\'re ready.' },
+};
+const OFFER_LABEL_JA = { discount: '割引', delivery_flex: '配送変更', menu_refresh: 'メニュー調整', plan_resize: 'プラン変更', pause: '一時停止', no_offer: 'オファーなし' };
+
+// Rule-based fallback, used only when the server / TypeSafe API is unavailable.
+const FALLBACK_BY_PREFIX = {
+  'Price': 'discount',
+  'Delivery Issues': 'delivery_flex',
+  'Personal Taste': 'menu_refresh', 'Family Feedback': 'menu_refresh', 'Lack of Variety': 'menu_refresh',
+  'Customization': 'menu_refresh', 'Menu Details': 'menu_refresh',
+  'Portion Size': 'plan_resize', 'Plan Fit': 'plan_resize',
+  'Life Changes': 'pause', 'One-time Trial': 'pause',
+  'Competitor': 'no_offer',
+};
+function fallbackDecision(survey) {
+  const prefix = (survey.reasons[0] || '').split(':')[0].trim();
+  let offer = FALLBACK_BY_PREFIX[prefix];
+  if (!offer) offer = survey.intent === INTENTS[0] ? 'pause' : 'no_offer'; // "Other"
+  const show = offer !== 'no_offer' && survey.intent !== INTENTS[2];
+  return { source: 'fallback', show, offer, runnerUp: null, confidence: null, probabilities: null, receptive: null };
+}
+
+let offerDecision = null; // last decision returned by the engine
+let offerKey = null;      // JSON of the survey the decision was made for
+
+function currentSurvey() {
+  const reasons = mode === 'first' ? (ans.ranked_reasons || []) : (ans.main_reason ? [ans.main_reason] : []);
+  const otherText = mode === 'first' ? (ans.ranked_reasons_other || '') : (ans.main_reason_other || '');
+  return {
+    mode, reasons, otherText, intent: ans.intent || '',
+    customer: { plan: 'Weekly', weekly_charge: 'SGD 211.00', delivery_fee: 'Free', next_delivery: 'Sun, 22 Mar' },
+  };
+}
+
+async function judgeOffer(survey) {
+  if (location.protocol === 'http:' || location.protocol === 'https:') {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 15000);
+    try {
+      const r = await fetch('/api/offer', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(survey), signal: ctrl.signal,
+      });
+      if (r.ok) return await r.json();
+      console.warn('offer API unavailable:', r.status);
+    } catch (e) {
+      console.warn('offer API failed:', e);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  return fallbackDecision(survey);
+}
+
+async function ensureOfferDecision() {
+  const survey = currentSurvey();
+  const key = JSON.stringify(survey);
+  if (offerKey !== key) {
+    offerDecision = await judgeOffer(survey);
+    offerKey = key;
+    renderDebugOffer();
+  }
+  return offerDecision;
+}
+
+function offerStepVisible() {
+  return !!(offerDecision && offerDecision.show && offerKey === JSON.stringify(currentSurvey()));
+}
+
+function renderDebugOffer() {
+  const el = document.getElementById('debug-offer');
+  const d = offerDecision;
+  if (!el) return;
+  if (!d) { el.textContent = ''; return; }
+  const engine = d.source === 'jev' ? 'Jev (' + (d.model || 'jev-latest') + ')' : 'ルールベース（API未接続）';
+  let line = '🧠 オファー判定: ' + engine + ' → ' + (OFFER_LABEL_JA[d.offer] || d.offer) + (d.show ? '' : '（非表示）');
+  if (d.probabilities) {
+    const top3 = Object.entries(d.probabilities).sort((a, b) => b[1] - a[1]).slice(0, 3)
+      .map(([k, v]) => (OFFER_LABEL_JA[k] || k) + ' ' + Math.round(v * 100) + '%').join(' / ');
+    line += ' ｜ ' + top3 + ' ｜ 受容 ' + Math.round(d.receptive * 100) + '%';
+  }
+  el.textContent = line;
+}
+
 // ── State ──
 let mode = 'first';
 let currentStep = 0;
@@ -371,6 +494,19 @@ let ans = {};
 
 // ── Step definitions ──
 function getSteps() {
+  const steps = getBaseSteps();
+  if (offerStepVisible()) {
+    steps.splice(steps.length - 1, 0, {
+      key: '__offer__',
+      title: 'Before you go, here\'s one thing we can do',
+      sub: 'Based on what you told us.',
+      type: 'offer',
+    });
+  }
+  return steps;
+}
+
+function getBaseSteps() {
   if (mode === 'first') {
     return [
       {
@@ -432,6 +568,7 @@ function openModal() {
   ans = {};
   currentStep = 0;
   document.getElementById('complete-wrap').classList.remove('show');
+  document.getElementById('kept-wrap').classList.remove('show');
   document.getElementById('step-view').style.display = '';
   renderStep();
   document.getElementById('overlay').classList.add('open');
@@ -458,10 +595,11 @@ function renderStep() {
   });
 
   // Header
-  const surveyStepNum = steps.filter(s => s.key !== '__confirm__').length;
+  const surveyStepNum = steps.filter(s => s.key !== '__confirm__' && s.key !== '__offer__').length;
   const isConfirm = step.key === '__confirm__';
+  const isOffer = step.key === '__offer__';
   document.getElementById('step-counter').textContent =
-    isConfirm ? '' : `Step ${currentStep + 1} / ${surveyStepNum}`;
+    (isConfirm || isOffer) ? '' : `Step ${currentStep + 1} / ${surveyStepNum}`;
   document.getElementById('step-title').textContent = step.title;
   document.getElementById('step-sub').textContent = step.sub || '';
 
@@ -475,6 +613,8 @@ function renderStep() {
     body.appendChild(buildRankedChips(step.key, step.options));
   } else if (step.type === 'confirm') {
     body.appendChild(buildConfirm());
+  } else if (step.type === 'offer') {
+    body.appendChild(buildOffer());
   }
 
   // Nav
@@ -513,13 +653,37 @@ function renderNav(step) {
     stayBtn.textContent = 'No, Keep My Subscription';
     stayBtn.onclick = closeModal;
     nav.appendChild(stayBtn);
+  } else if (step.type === 'offer') {
+    nav.style.flexDirection = 'column';
+    const keep = document.createElement('button');
+    keep.className = 'btn-keep-offer';
+    keep.textContent = 'Yes, keep my subscription with this';
+    keep.onclick = doKeep;
+    nav.appendChild(keep);
+
+    const cont = document.createElement('button');
+    cont.className = 'btn-stay';
+    cont.textContent = 'No thanks, continue cancelling';
+    cont.onclick = () => { currentStep++; renderStep(); };
+    nav.appendChild(cont);
   } else {
     nav.style.flexDirection = '';
     const next = document.createElement('button');
     next.id = 'btn-next';
     next.className = 'btn-next' + (isStepAnswered(step) ? ' enabled' : '');
     next.textContent = 'Next →';
-    next.onclick = () => { currentStep++; renderStep(); };
+    if (step.key === 'intent') {
+      // Last survey step: ask the offer engine before deciding where to go next.
+      next.onclick = async () => {
+        next.textContent = 'One moment…';
+        next.classList.remove('enabled');
+        await ensureOfferDecision();
+        currentStep++;
+        renderStep();
+      };
+    } else {
+      next.onclick = () => { currentStep++; renderStep(); };
+    }
     nav.appendChild(next);
   }
 }
@@ -740,6 +904,39 @@ function buildConfirm() {
 
   wrap.appendChild(summary);
   return wrap;
+}
+
+// ── Offer step builder ──
+function buildOffer() {
+  const d = offerDecision;
+  const o = OFFER_CATALOG[d.offer];
+  const card = document.createElement('div');
+  card.className = 'offer-card';
+
+  const badge = document.createElement('div');
+  badge.className = 'offer-badge';
+  badge.textContent = 'Special offer';
+  const title = document.createElement('div');
+  title.className = 'offer-title';
+  title.textContent = o.title;
+  const desc = document.createElement('div');
+  desc.className = 'offer-desc';
+  desc.textContent = o.desc;
+  const basis = document.createElement('div');
+  basis.className = 'offer-basis';
+  const top = (currentSurvey().reasons[0] || '').split(':')[0].trim();
+  basis.textContent = top ? 'Because you mentioned: ' + top : '';
+
+  card.append(badge, title, desc, basis);
+  return card;
+}
+
+function doKeep() {
+  const o = OFFER_CATALOG[offerDecision.offer];
+  document.getElementById('kept-offer-title').textContent = o.title;
+  document.getElementById('step-view').style.display = 'none';
+  document.getElementById('kept-wrap').classList.add('show');
+  document.getElementById('sheet').scrollTop = 0;
 }
 
 function doCancel() {
