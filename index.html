@@ -237,6 +237,29 @@ html, body {
 }
 .btn-keep-offer:hover { background: var(--brand-hover); }
 .complete-icon.kept { background: var(--brand-light); color: var(--brand); }
+/* Team share note (prototype only) */
+.share-note {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 4px 16px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; color: var(--text-sub);
+}
+.share-note summary {
+  cursor: pointer; padding: 10px 0; font-weight: 600; color: var(--text); list-style: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.share-note summary::-webkit-details-marker { display: none; }
+.share-note summary::after { content: '+'; color: var(--text-hint); font-weight: 500; font-size: 16px; }
+.share-note[open] summary::after { content: '−'; }
+.share-note summary:focus-visible { outline: 2px solid var(--brand-mid); outline-offset: 2px; border-radius: 4px; }
+.share-note-body { padding: 0 0 12px; display: grid; gap: 10px; }
+.share-note h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-hint); margin-bottom: 3px; }
+.share-note ol, .share-note ul { padding-left: 18px; }
+.share-note li { margin: 2px 0; }
+.share-note code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+.share-note a { color: var(--brand); }
+.engine-pill {
+  display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px;
+  background: var(--brand-light); color: var(--brand-dark); border: 1px solid var(--brand-mid);
+}
 .debug-offer { font-size: 11px; color: var(--text-hint); margin: -12px 0 16px; line-height: 1.5; }
 .debug-offer:empty { display: none; }
 
@@ -305,6 +328,37 @@ html, body {
 </nav>
 
 <div class="page">
+  <details class="share-note" id="share-note" open>
+    <summary>解約フロー プロトタイプ：チーム向けメモ</summary>
+    <div class="share-note-body">
+      <div>
+        <h4>何が新しいか</h4>
+        解約理由（上位3つ、Otherは自由記述）と再利用意向を答えたあと、確定画面の前に<strong>引き留めオファーを1つだけ</strong>提示します。
+        候補は 割引 / 配送変更 / メニュー調整 / プラン変更 / 一時停止 / オファーなし の6つで、「なし」と判定されたときは従来どおり確定画面に進みます。
+      </div>
+      <div>
+        <h4>試し方（3パターン）</h4>
+        <ol>
+          <li><strong>Price</strong> を1位に選び、意向は "Yes, if the service improves." → 割引が出る</li>
+          <li><strong>Competitor</strong> を選び、意向は "No, I don't plan to return." → オファー無しで確定画面へ</li>
+          <li><strong>Other</strong> に「moving abroad for 3 months」と書き、意向は "Yes, once my situation changes." → 一時停止が出る</li>
+        </ol>
+        オファー画面で「Yes, keep my subscription with this」を押すと継続完了、「No thanks」で通常の確定へ進みます。
+      </div>
+      <div>
+        <h4>判定エンジン</h4>
+        <span class="engine-pill" id="engine-pill">この共有版：ルールベース</span>
+        <div style="margin-top:6px">本番構成では TypeSafe の判定モデル <strong>Jev</strong> がサーバー経由で選びます（どのオファーが効くか、そもそも受け入れそうか、の2問を確率付きで返す）。
+        この共有ページにはサーバーが無いので、理由の1位だけを見る簡易ルールで動いています。判定結果とエンジン名は下のデバッグ行に出ます。</div>
+      </div>
+      <div>
+        <h4>コード</h4>
+        <a href="https://github.com/jjax/cancel-reason-prototype/tree/claude/relaxed-ramanujan-tdw4b0" target="_blank" rel="noopener">jjax/cancel-reason-prototype</a>（ブランチ <code>claude/relaxed-ramanujan-tdw4b0</code>）。
+        ローカルで <code>TYPESAFE_API_KEY=… npm start</code> すると Jev 判定に切り替わります。
+      </div>
+    </div>
+  </details>
+
   <div class="debug-toggle">
     <span class="debug-label">🛠 Dev – キャンセルタイプ:</span>
     <button class="debug-btn active" id="btn-mode-first" onclick="setMode('first')">初回</button>
@@ -485,6 +539,8 @@ function renderDebugOffer() {
     line += ' ｜ ' + top3 + ' ｜ 受容 ' + Math.round(d.receptive * 100) + '%';
   }
   el.textContent = line;
+  const pill = document.getElementById('engine-pill');
+  if (pill) pill.textContent = d.source === 'jev' ? 'このページ：Jev (' + (d.model || 'jev-latest') + ')' : 'このページ：ルールベース（API未接続）';
 }
 
 // ── State ──
